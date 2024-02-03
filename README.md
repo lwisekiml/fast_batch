@@ -74,3 +74,5 @@ processed apple
 >--spring.batch.job.names=advancedJob -targetDate=2021-01-01
 
 >--spring.batch.job.names=advancedJob -targetDate=targetDate
+
+### 02. JobExecutionListener_5
