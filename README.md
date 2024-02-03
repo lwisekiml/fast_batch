@@ -105,3 +105,12 @@ processed apple
 ### 01. Muti Thread Step
 실행 전 Edit Configuration... -> Program arguments
 >--spring.batch.job.names=multiThreadStepJob
+
+<br/>
+
+### 02. Parallel Step
+실행 전 Edit Configuration... -> Program arguments
+>--spring.batch.job.names=parallelJob
+
+<br/>
+
