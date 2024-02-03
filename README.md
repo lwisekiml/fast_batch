@@ -133,3 +133,7 @@ processed apple
 
 ## Ch 06. Spring Batch 테스트
 ### 01. Mock, StaticMock
+
+<br/>
+
+### 02. AssertFile
