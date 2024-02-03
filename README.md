@@ -121,4 +121,10 @@ processed apple
 ### 04. Partitioning
 실행 전 Edit Configuration... -> Program arguments
 >--spring.batch.job.names=partitioningJob
+
 <br/>
+
+- Muti Thread Step : chunk단위로 병렬 처리 - 파일 순서 뒤죽박죽이나 속도를 빠르다.  
+- Parallel Step : Step을 동시에 실행, flow를 지정해서 taskExecutor로 동시에 실행, 파일을 실행하는 Step은 flowAmountFileStep으로 처리하고 다른 처리(로그출력)는 flowAnotherStep으로 처리  
+- Partitioning : 위와 같이 Step을 동시에 시행하고 싶은데 처리해야할 Step의 양이 많거나 위와같이 지정된 step말고 동적으로 스텝을 생성해서 설정을 해주어야 하는 경우에 사용
+어떤 값에 따라서 다르게 step을 생성하고 싶을 때 사용
