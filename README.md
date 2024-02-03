@@ -75,4 +75,12 @@ processed apple
 
 >--spring.batch.job.names=advancedJob -targetDate=targetDate
 
+<br/>
+
 ### 02. JobExecutionListener_5
+
+<br/>
+
+### 03. FlatFileItemReader
+실행 전 Edit Configuration... -> Program arguments
+>--spring.batch.job.names=flatFileJob
