@@ -1,6 +1,8 @@
 package com.fc.hellospringbatch.job.player;
 
+import com.fc.hellospringbatch.core.service.PlayerSalaryService;
 import com.fc.hellospringbatch.dto.PlayerDto;
+import com.fc.hellospringbatch.dto.PlayerSalaryDto;
 import lombok.AllArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -9,6 +11,7 @@ import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
@@ -35,13 +38,20 @@ public class FlatFileJobConfig {
 
     @JobScope
     @Bean
-    public Step flatFileStep(FlatFileItemReader<PlayerDto> playerFileItemReader) {
+    public Step flatFileStep(FlatFileItemReader<PlayerDto> playerFileItemReader,
+                             PlayerSalaryService playerSalaryService) {
         return stepBuilderFactory.get("flatFileStep")
-                .<PlayerDto, PlayerDto>chunk(5)
+                .<PlayerDto, PlayerSalaryDto>chunk(5)
                 .reader(playerFileItemReader)
+                .processor(new ItemProcessor<PlayerDto, PlayerSalaryDto>() {
+                    @Override
+                    public PlayerSalaryDto process(PlayerDto item) throws Exception {
+                        return playerSalaryService.calcSalary(item);
+                    }
+                })
                 .writer(new ItemWriter<>() {
                     @Override
-                    public void write(List<? extends PlayerDto> items) throws Exception {
+                    public void write(List<? extends PlayerSalaryDto> items) throws Exception {
                         items.forEach(System.out::println);
                     }
                 })

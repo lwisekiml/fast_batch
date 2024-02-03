@@ -91,3 +91,7 @@ processed apple
 
 <br/>
 
+### 05. ItemProcessorAdapter
+실행 전 Edit Configuration... -> Program arguments
+>--spring.batch.job.names=flatFileJob
+
