@@ -95,3 +95,10 @@ processed apple
 실행 전 Edit Configuration... -> Program arguments
 >--spring.batch.job.names=flatFileJob
 
+<br/>
+
+### 06. FlatFileItemWriter
+
+<br/>
+
+
