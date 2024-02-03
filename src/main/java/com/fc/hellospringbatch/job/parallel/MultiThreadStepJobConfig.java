@@ -47,14 +47,22 @@ public class MultiThreadStepJobConfig {
     @Bean
     public Step multiThreadStep(FlatFileItemReader<AmountDto> amountFileItemReader,
                                 ItemProcessor<AmountDto, AmountDto> amountFileItemProcessor,
-                                FlatFileItemWriter<AmountDto> amountFileItemWriter
+                                FlatFileItemWriter<AmountDto> amountFileItemWriter,
+                                TaskExecutor taskExecutor
                                 ) {
         return stepBuilderFactory.get("multiThreadStep")
                 .<AmountDto, AmountDto>chunk(10)
                 .reader(amountFileItemReader)
                 .processor(amountFileItemProcessor)
                 .writer(amountFileItemWriter)
+                .taskExecutor(taskExecutor) // multi thread로 하면 output에 순서대로 나오지 않는다.
                 .build();
+    }
+
+    @Bean
+    public TaskExecutor taskExecutor() {
+        SimpleAsyncTaskExecutor taskExecutor = new SimpleAsyncTaskExecutor("spring-batch-task-executor");
+        return taskExecutor;
     }
 
     @StepScope

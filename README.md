@@ -103,3 +103,5 @@ processed apple
 
 ## Ch 05. Spring Batch 병렬처리
 ### 01. Muti Thread Step
+실행 전 Edit Configuration... -> Program arguments
+>--spring.batch.job.names=multiThreadStepJob
