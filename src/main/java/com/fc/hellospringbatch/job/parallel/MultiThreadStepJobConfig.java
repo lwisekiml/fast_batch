@@ -62,6 +62,7 @@ public class MultiThreadStepJobConfig {
     @Bean
     public TaskExecutor taskExecutor() {
         SimpleAsyncTaskExecutor taskExecutor = new SimpleAsyncTaskExecutor("spring-batch-task-executor");
+        taskExecutor.setConcurrencyLimit(4); // 동시에 실행하는 thread를 4개로
         return taskExecutor;
     }
 
