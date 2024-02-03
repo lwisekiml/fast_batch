@@ -84,3 +84,10 @@ processed apple
 ### 03. FlatFileItemReader
 실행 전 Edit Configuration... -> Program arguments
 >--spring.batch.job.names=flatFileJob
+
+### 04. StepListener\
+실행 전 Edit Configuration... -> Program arguments
+>--spring.batch.job.names=advancedJob
+
+<br/>
+
