@@ -1,5 +1,4 @@
-# fast_batch
-
+## Ch 03. Spring Batch 기본
 ### 01.프로젝트 세팅
 > doker-compose up -d
 
@@ -11,8 +10,6 @@
 <br/>
 
 ### 02. Spring Batch 실행 환경 - Batch 스케줄링
-
---spring.batch.job.names=helloJob
 
 > ./gradlew bootJar  
 
@@ -69,3 +66,11 @@ processed apple
   primary key (id)  
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;  
 
+<br/>
+
+## Ch 04. Spring Batch 자세히 살펴보기
+### 01. JobParameterValidator
+실행 전 Edit Configuration... -> Program arguments
+>--spring.batch.job.names=advancedJob -targetDate=2021-01-01
+
+>--spring.batch.job.names=advancedJob -targetDate=targetDate
