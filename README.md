@@ -116,4 +116,9 @@ processed apple
 
 ### 03. Remote Chunking
 
+<br/>
 
+### 04. Partitioning
+실행 전 Edit Configuration... -> Program arguments
+>--spring.batch.job.names=partitioningJob
+<br/>
