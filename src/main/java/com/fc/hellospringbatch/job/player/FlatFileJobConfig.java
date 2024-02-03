@@ -13,6 +13,7 @@ import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.adapter.ItemProcessorAdapter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
@@ -20,7 +21,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 
-import javax.persistence.Version;
 import java.util.List;
 
 @Configuration
@@ -40,11 +40,11 @@ public class FlatFileJobConfig {
     @JobScope
     @Bean
     public Step flatFileStep(FlatFileItemReader<PlayerDto> playerFileItemReader,
-                             ItemProcessor<PlayerDto, PlayerSalaryDto> playerSalaryItemProcessor) {
+                             ItemProcessorAdapter<PlayerDto, PlayerSalaryDto> playerSalaryItemProcessorAdapter) {
         return stepBuilderFactory.get("flatFileStep")
                 .<PlayerDto, PlayerSalaryDto>chunk(5)
                 .reader(playerFileItemReader)
-                .processor(playerSalaryItemProcessor)
+                .processor(playerSalaryItemProcessorAdapter)
                 .writer(new ItemWriter<>() {
                     @Override
                     public void write(List<? extends PlayerSalaryDto> items) throws Exception {
@@ -52,6 +52,15 @@ public class FlatFileJobConfig {
                     }
                 })
                 .build();
+    }
+
+    @StepScope
+    @Bean
+    public ItemProcessorAdapter<PlayerDto, PlayerSalaryDto> playerSalaryItemProcessorAdapter(PlayerSalaryService playerSalaryService) {
+        ItemProcessorAdapter<PlayerDto, PlayerSalaryDto> adapter = new ItemProcessorAdapter<>();
+        adapter.setTargetObject(playerSalaryService);
+        adapter.setTargetMethod("calcSalary"); // PlayerSalaryService에 있는 메소드명
+        return adapter;
     }
 
     @StepScope
