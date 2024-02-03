@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 
+import javax.persistence.Version;
 import java.util.List;
 
 @Configuration
@@ -39,16 +40,11 @@ public class FlatFileJobConfig {
     @JobScope
     @Bean
     public Step flatFileStep(FlatFileItemReader<PlayerDto> playerFileItemReader,
-                             PlayerSalaryService playerSalaryService) {
+                             ItemProcessor<PlayerDto, PlayerSalaryDto> playerSalaryItemProcessor) {
         return stepBuilderFactory.get("flatFileStep")
                 .<PlayerDto, PlayerSalaryDto>chunk(5)
                 .reader(playerFileItemReader)
-                .processor(new ItemProcessor<PlayerDto, PlayerSalaryDto>() {
-                    @Override
-                    public PlayerSalaryDto process(PlayerDto item) throws Exception {
-                        return playerSalaryService.calcSalary(item);
-                    }
-                })
+                .processor(playerSalaryItemProcessor)
                 .writer(new ItemWriter<>() {
                     @Override
                     public void write(List<? extends PlayerSalaryDto> items) throws Exception {
@@ -56,6 +52,17 @@ public class FlatFileJobConfig {
                     }
                 })
                 .build();
+    }
+
+    @StepScope
+    @Bean
+    public ItemProcessor<PlayerDto, PlayerSalaryDto> playerSalaryItemProcessor(PlayerSalaryService playerSalaryService) {
+        return new ItemProcessor<PlayerDto, PlayerSalaryDto>() {
+            @Override
+            public PlayerSalaryDto process(PlayerDto item) throws Exception {
+                return playerSalaryService.calcSalary(item);
+            }
+        };
     }
 
     @StepScope
