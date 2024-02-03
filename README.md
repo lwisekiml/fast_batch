@@ -60,3 +60,12 @@ processed banana
 processed apple  
 ==== chunk is finished  
 
+<br/>
+
+### 04. Spring Batch 테스트
+>CREATE table result_text (  
+  id int(11) not null auto_increment,  
+  text varchar(100) collate utf8mb4_unicode_ci not null,  
+  primary key (id)  
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;  
+
